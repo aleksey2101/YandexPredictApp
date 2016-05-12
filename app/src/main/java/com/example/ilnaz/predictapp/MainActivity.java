@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String str = (String) charSequence;
+                String str = charSequence.toString();
                 str = str.replace(' ', '+');
                 final String finalStr = str;
                 new Handler().postDelayed(new Runnable() {
