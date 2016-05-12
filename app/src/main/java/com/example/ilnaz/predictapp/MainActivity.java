@@ -5,9 +5,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://predictor.yandex.net/")
                 .build();
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.setText(textView.getText());
+            }
+        });
         query.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -50,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
                         Callback<PredictResp> callback = new Callback<PredictResp>() {
                             @Override
                             public void onResponse(Call<PredictResp> call, Response<PredictResp> response) {
-                                textView.setText(response.body().getText().toString());
+                                List<String> list = response.body().getText();
+                                if (list.size() > 0)
+                                    textView.setText(list.get(0));
                             }
 
                             @Override
